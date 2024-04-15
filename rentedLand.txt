@@ -1,0 +1,4 @@
+Name,kitta,Location,Land Faced,Price,Duration,Date,Time
+sandip,102,Pokhara,East,60000,4,2024-04-15,14:12:57.398867
+Name,kitta,Location,Land Faced,Price,Duration,Date,Time
+sandip,103,Lalitpur,South,100000,4,2024-04-15,14:12:57.398867
