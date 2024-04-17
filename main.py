@@ -14,20 +14,20 @@ def displayDetailsOfFile():
             count= count +1
             for k in value.keys():
                 if(k.strip() == "Availability"):
-                     print("{:19s}".format(k) + "|",end="\n")
+                     print("{:19}".format(k) + "|",end="\n")
                 else:
-                    print("{:19s}".format(k) + "|",end="" )
+                    print("{:19}".format(k) + "|",end="" )
             # print(end="\n")
         
         for v in value.values():
             if (v.strip().lower() == "available" or v.strip().lower() == "not available" or v.strip().lower() == "unavailable"):
                 
-                print("{:19s}".format(v) +"|",end="\n")
-                print(sep="~")
+                print("{:19}".format(v) +"|",end="\n")
+                # print(sep="")
 
             else:
                 
-                print("{:19s}".format(v) +"|",end="")
+                print("{:19}".format(v) +"|",end="")
 
 
 
@@ -66,6 +66,11 @@ def landPurchase(kittaInputFromUser,count,rented_Land_Owner_list):
             if(user_Confirmation.lower() == "y" or user_Confirmation.lower() == "yes"):
                 
                 name_Of_land_owner = input("Enter your name:>")
+                phoneNumber = input("Enter your Phone Number: >>")
+
+                while(len(phoneNumber)<10):
+                    phoneNumber = input("Enter a valid phone NUmber:>>")
+
                 period_Of_rent = int(input("For How months do you want to rent(warning:-greater than one month or equal to one month)? > "));
                 if (count == 1):
                     count = count + 1;
@@ -88,14 +93,14 @@ def landPurchase(kittaInputFromUser,count,rented_Land_Owner_list):
                     # print(value)
                     if(value['Name'] == name_Of_land_owner):
                         
-                        invoice.write("Name,kitta,Location,Land Faced,Price,Duration,Date,Time\n")
+                        invoice.write("Name,  kitta  ,  Location  ,  LandFaced  , Price ,  PhoneNumber  ,  Duration  ,  Date  , Time\n")
                         # invoice.write(f"{name_Of_land_owner},{user_Picked_Land_Holder['Kitta']},{user_Picked_Land_Holder['Location']},{user_Picked_Land_Holder['Direction(land)']},{user_Picked_Land_Holder['Price(per/month)']},{period_Of_rent},{str(datetime.now().time())},{str(datetime.now().time())}\n")
-                        invoice.write(f"{name_Of_land_owner},{value['Kitta']},{value['Location']},{value['Direction(land)']},{value['Price(per/month)']},{period_Of_rent},{str(datetime.now().date())},{str(datetime.now().time())}\n")
+                        invoice.write(f"{name_Of_land_owner}  ,  {value['Kitta']},{value['Location']}  ,  {value['Direction(land)']}  ,  {value['Price(per/month)']}  ,{phoneNumber},  {period_Of_rent}  ,{str(datetime.now().date())}  ,  {str(datetime.now().time())}\n")
 
                     else:
                         value['Name']= name_Of_land_owner;
-                        invoice.write("Name,kitta,Location,Land Faced,Price,Duration,Date,Time\n")
-                        invoice.write(f"{name_Of_land_owner},{user_Picked_Land_Holder['Kitta']},{user_Picked_Land_Holder['Location']},{user_Picked_Land_Holder['Direction(land)']},{user_Picked_Land_Holder['Price(per/month)']},{period_Of_rent},{str(datetime.now().date())},{str(datetime.now().time())}")
+                        invoice.write("Name,  kitta  ,Location  ,  Land Faced  ,  Price  ,  PhoneNumber  , Duration  ,  Date  , Time\n")
+                        invoice.write(f"{name_Of_land_owner},  {user_Picked_Land_Holder['Kitta']}  ,{user_Picked_Land_Holder['Location']}  ,  {user_Picked_Land_Holder['Direction(land)']}  ,  {user_Picked_Land_Holder['Price(per/month)']} ,  {phoneNumber} ,{period_Of_rent}  ,{str(datetime.now().date())}  ,  {str(datetime.now().time())}") 
 
                 invoice.close()
                 
@@ -158,5 +163,7 @@ rented_Land_Owner_List = [];
            
 
 displayTheIntro();
-after_Intro(count,rented_Land_Owner_List);
-
+try:
+    after_Intro(count,rented_Land_Owner_List);
+except:
+    print("done");
