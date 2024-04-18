@@ -1,2 +1,20 @@
-Name,  kitta  ,Location  ,  Land Faced  ,  Price  ,  Duration  ,  Date  , Time
-manoj,  106  ,Venus  ,  North  ,  50000 ,  9849320765 ,5  ,2024-04-17  ,  18:16:17.265226
+
+                                        Trading Property Nepal
+                                Hospital Chowk  -   10, Pokhara Nepal
+                        VAT:5999524                                Ph. No: 9849320765
+                                                                
+                    Name : msn                                            Date:
+                    Address : jhalunge  
+                    phone: 9849320765
+
+                ------------------------------------------------------------------------
+                | SN | Name                                             |  Price        |
+                ------------------------------------------------------------------------
+                | 1   | 104                                                 |  100000   |
+                -------------------------------------------------------------------------
+                                                                            Total :
+                                                                            VAT   :
+                                                                      Grand Total : 
+                    
+
+    

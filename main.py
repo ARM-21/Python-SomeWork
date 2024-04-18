@@ -1,6 +1,9 @@
 from FileRead import fileReader;
 from FileWrite import updating_Details_in_rentFile;
 from datetime import datetime;
+from FileWrite import bill_maker;
+Final_bill = "";
+
 
 def displayDetailsOfFile():
     list_Of_Land = fileReader();
@@ -35,7 +38,7 @@ def displayDetailsOfFile():
 
 
    
-def landPurchase(kittaInputFromUser,count,rented_Land_Owner_list):
+def landPurchase(kittaInputFromUser,count,bill_Checker):
     """this method takes a input from a user and checks whether the land is available or not \n
     and returns """
     print(kittaInputFromUser);
@@ -56,6 +59,7 @@ def landPurchase(kittaInputFromUser,count,rented_Land_Owner_list):
         
     if(kitta_num_existing_checker):
         user_Picked_Land_Holder = details_Of_File_Holder[indexing_for_existed_kitta]
+
         print("kitta = "+ user_Picked_Land_Holder['Kitta']+"\nLocation = " + user_Picked_Land_Holder['Location'])
         print("Land Faced = "+ user_Picked_Land_Holder['Direction(land)']+"\nAnna= " + user_Picked_Land_Holder['Anna'])
         print("Availability = "+ user_Picked_Land_Holder['Availability']+"\nPrice = " + user_Picked_Land_Holder['Price(per/month)']+"\n")
@@ -64,6 +68,7 @@ def landPurchase(kittaInputFromUser,count,rented_Land_Owner_list):
             user_Confirmation = input(f"Are you sure to buy kitta no {kittaInputFromUser} of price {user_Picked_Land_Holder['Price(per/month)']}: (y/n)")
 
             if(user_Confirmation.lower() == "y" or user_Confirmation.lower() == "yes"):
+                bill_Checker = True;
                 
                 name_Of_land_owner = input("Enter your name:>")
                 phoneNumber = input("Enter your Phone Number: >>")
@@ -87,26 +92,14 @@ def landPurchase(kittaInputFromUser,count,rented_Land_Owner_list):
 
                 print(rented_Land_Owner_List);
                 print(count);
-                invoice = open('rentedLand.txt','w')
-                for value in rented_Land_Owner_List:
-                    
-                    # print(value)
-                    if(value['Name'] == name_Of_land_owner):
-                        
-                        invoice.write("Name,  kitta  ,  Location  ,  LandFaced  , Price ,  PhoneNumber  ,  Duration  ,  Date  , Time\n")
-                        # invoice.write(f"{name_Of_land_owner},{user_Picked_Land_Holder['Kitta']},{user_Picked_Land_Holder['Location']},{user_Picked_Land_Holder['Direction(land)']},{user_Picked_Land_Holder['Price(per/month)']},{period_Of_rent},{str(datetime.now().time())},{str(datetime.now().time())}\n")
-                        invoice.write(f"{name_Of_land_owner}  ,  {value['Kitta']},{value['Location']}  ,  {value['Direction(land)']}  ,  {value['Price(per/month)']}  ,{phoneNumber},  {period_Of_rent}  ,{str(datetime.now().date())}  ,  {str(datetime.now().time())}\n")
-
-                    else:
-                        value['Name']= name_Of_land_owner;
-                        invoice.write("Name,  kitta  ,Location  ,  Land Faced  ,  Price  ,  PhoneNumber  , Duration  ,  Date  , Time\n")
-                        invoice.write(f"{name_Of_land_owner},  {user_Picked_Land_Holder['Kitta']}  ,{user_Picked_Land_Holder['Location']}  ,  {user_Picked_Land_Holder['Direction(land)']}  ,  {user_Picked_Land_Holder['Price(per/month)']} ,  {phoneNumber} ,{period_Of_rent}  ,{str(datetime.now().date())}  ,  {str(datetime.now().time())}") 
-
-                invoice.close()
+                Final_bill=bill_maker(name_Of_land_owner,"jhalunge",phoneNumber,rented_Land_Owner_List)
+              
                 
                 updating_Details_in_rentFile(details_Of_File_Holder,kitta_num);
                 # count = count +1;
+                bill_Checker =False;
                 return ("Purchase successfull",count);
+               
             else:
                 return "failed",1
         else:
@@ -115,7 +108,7 @@ def landPurchase(kittaInputFromUser,count,rented_Land_Owner_list):
     else:
         
         print("enter a valid kitta number")
-        after_Intro(count,rented_Land_Owner_List)
+        after_Intro(count,rented_Land_Owner_List,False)
 
 
 
@@ -130,7 +123,7 @@ def displayTheIntro():
     
 
 
-def after_Intro(count,owner_List):
+def after_Intro(count,owner_List,bill_Checker):
     
     userTryAgain = True
     
@@ -146,24 +139,29 @@ def after_Intro(count,owner_List):
     # else:
         # user_picked_kitta_number = int(input("Enter the kitta number of available land:--->"))
 
-        message,count= landPurchase(int(user_picked_kitta_number),count,owner_List);
+        message,count= landPurchase(int(user_picked_kitta_number),count,bill_Checker);
         print(message)
         # count = count +1;
         print(count);
         user_Confirmation_to_exit = input("Do you want to buy again: (y/n) >")
         if (user_Confirmation_to_exit.lower() == "n" or user_Confirmation_to_exit.lower() == "no"):
+            print(bill_Checker)?
+            # if(bill_Checker):
+            print(Final_bill);
             userTryAgain = False
         else:
             displayTheIntro()
 
 
 
+
 count =1;      
+bill_Checker = False;
 rented_Land_Owner_List = [];     
            
 
 displayTheIntro();
-try:
-    after_Intro(count,rented_Land_Owner_List);
-except:
-    print("done");
+# try:
+after_Intro(count,rented_Land_Owner_List,bill_Checker);
+# except:
+    # print("done");
