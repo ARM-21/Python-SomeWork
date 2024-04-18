@@ -2,9 +2,10 @@ from FileRead import fileReader;
 from FileWrite import updating_Details_in_rentFile;
 from datetime import datetime;
 from FileWrite import bill_maker;
+from threading import Timer;
 Final_bill = "";
 
-
+"""This is method is used to gather the details in rent_details file and displays the information in tabular format"""
 def displayDetailsOfFile():
     list_Of_Land = fileReader();
     count =1;
@@ -36,11 +37,12 @@ def displayDetailsOfFile():
 
 
 
-
+"""This method accepts the kitta number input by user and look for the kiita number in file if exists then further process like renting and occurs"""
    
-def landPurchase(kittaInputFromUser,count,bill_Checker):
+def landPurchase(kittaInputFromUser,count):
     """this method takes a input from a user and checks whether the land is available or not \n
     and returns """
+    kittaInputFromUser = int(kittaInputFromUser)
     print(kittaInputFromUser);
     details_Of_File_Holder = fileReader()
     user_Picked_Land_Holder= {};
@@ -108,47 +110,81 @@ def landPurchase(kittaInputFromUser,count,bill_Checker):
     else:
         
         print("enter a valid kitta number")
-        after_Intro(count,rented_Land_Owner_List,False)
+        after_Intro(count,rented_Land_Owner_List)
 
 
 
+def ask_user():
+    print("<<<<<<<Choose the following options>>>>>")  
+    print("      1.Rent Land \n      2.Return Land \n ")
+    user_choice=0;
+    while(user_choice != 1 or user_choice !=2):
+        user_choice="y"
+        while(str(user_choice).strip().isalpha() or str(user_choice).isspace()):
+            try:
+                user_choice = int(input("Enter your choice>>>> "))
+            except:
+                user_choice = input("Enter a valid choice>>>")
+
+        if(user_choice == 1 or user_choice == str(1)):
+            return "rent"
+            break
+        elif(user_choice == 2 or user_choice == str(2)):
+            return "return"
+            break
+
+
+
+"""It displays the welcoming intro and details of land available with it's different details like kitta and location"""
 def displayTheIntro():
-    # count =1
+    
     print("\n\n\t\t\t\t<-------- Welcome to Techno Property Nepal --------->\n")
+    print(f"{"searching":10} for land details in file")
+
     displayDetailsOfFile();
     print("\n \t\t\t\t<--------------------------------------------------->")
     print("\n\t\t\t__________Choose kitta number to buy a Available land________\n")
     
     
+def bill_printer():
+    file = open('rentedLand.txt')
+    bill = f"""{file.read()}"""
+    print(bill);
+    file.close()    
     
 
-
-def after_Intro(count,owner_List,bill_Checker):
+"""This is the process after displaying intro to the user which asks kitta from user and do other prcess"""
+def after_Intro(count,owner_List):
+    file = open('rentedLand.txt','w')
+    bill = f"""{file.write("")}"""
+    # print(bill);
+    file.close()
     
     userTryAgain = True
     
     while(userTryAgain):
         
         user_picked_kitta_number ='y';
-    # if(user_picked_kitta_number.isalpha()):
-        # while(user_picked_kitta_number.isalpha()):
+   
         try:
-            user_picked_kitta_number = input("Enter the kitta number of available land:--->")
+            user_picked_kitta_number = int(input("Enter the kitta number of available land:---> "))
         except:
-            user_picked_kitta_number = input("Enter a valid kitta number: >")
-    # else:
-        # user_picked_kitta_number = int(input("Enter the kitta number of available land:--->"))
+            while(True):
+                if(user_picked_kitta_number.strip().isalpha() or len(str(user_picked_kitta_number).strip()) <3 or user_picked_kitta_number.isspace()):
+                    user_picked_kitta_number = input("Enter a valid kitta number: > ")
+                else:
+                    break;   
 
-        message,count= landPurchase(int(user_picked_kitta_number),count,bill_Checker);
+        message,count= landPurchase(user_picked_kitta_number,count);
         print(message)
         # count = count +1;
         print(count);
         user_Confirmation_to_exit = input("Do you want to buy again: (y/n) >")
         if (user_Confirmation_to_exit.lower() == "n" or user_Confirmation_to_exit.lower() == "no"):
-            print(bill_Checker)?
-            # if(bill_Checker):
-            print(Final_bill);
-            userTryAgain = False
+           userTryAgain = False
+           print(f"{"hello":10s} Printing your bill!! please wait be patience")
+           delayed_Message = Timer(2,bill_printer)
+           delayed_Message.start()
         else:
             displayTheIntro()
 
@@ -158,10 +194,11 @@ def after_Intro(count,owner_List,bill_Checker):
 count =1;      
 bill_Checker = False;
 rented_Land_Owner_List = [];     
-           
 
-displayTheIntro();
-# try:
-after_Intro(count,rented_Land_Owner_List,bill_Checker);
-# except:
-    # print("done");
+user_Desire = ask_user()
+           
+if(user_Desire == "rent"):
+    displayTheIntro();
+    after_Intro(count,rented_Land_Owner_List);
+elif(user_Desire == "return"):
+    pass
