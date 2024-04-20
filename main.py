@@ -191,6 +191,30 @@ def after_Intro(count,owner_List):
 
 
 
+def returnLandProcess(kitta_Num):
+    displayTheIntro()
+    list_Of_Land = fileReader();
+    
+    userTryAgain = True
+    while(userTryAgain):
+        
+        user_Input_kitta ='y';
+   
+        try:
+            user_Input_kitta = input("Enter a kitta num to return:>>> ")
+        except:
+            while(True):
+                if(user_Input_kitta.strip().isalpha() or len(str(user_Input_kitta).strip()) <3 or user_Input_kitta.isspace()):
+                    user_Input_kitta = input("Enter a valid kitta number: > ")
+                else:
+                    break;   
+
+        
+
+
+
+
+
 count =1;      
 bill_Checker = False;
 rented_Land_Owner_List = [];     

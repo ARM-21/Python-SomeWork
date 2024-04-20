@@ -32,9 +32,9 @@ def bill_maker(name,address,phone,rented_land_Owner_List):
                     Address : {address:10}
                     phone: {phone:10}
 
-                ------------------------------------------------------------------------
-                | SN | Name                                             |  Price        |
-                ------------------------------------------------------------------------
+                -----------------------------------------------------------------------------
+                | SN | Name                                             |      Price         |
+                -----------------------------------------------------------------------------
                 """
     # invoice = open('rentedLand.txt','w')
     for value in rented_land_Owner_List:
@@ -44,20 +44,20 @@ def bill_maker(name,address,phone,rented_land_Owner_List):
                         if(value['Name'] == name):
                              i += 1;
                              middle_bill =middle_bill+f"""
-                |{i:^3} | {value['Kitta']}                                              |   {value['Price(per/month)']}      |"""
+                |{i:^3} | {value['Kitta']}                                              |   {value['Price(per/month)']:^10}      |"""
                              total = total + int(value['Price(per/month)'])
                         else:
                             
                             # phone = 
                             value['Name']= name;
                             i += 1;
-                            middle_bill =f"""|{i:^3} | {value['Kitta']}                                              |  {value['Price(per/month)']}        |"""
+                            middle_bill =f"""|{i:^3} | {value['Kitta']}                                              |  {value['Price(per/month)']:^10}        |"""
                             print(total);
                             total = total + int(value['Price(per/month)'])
                             print(total)
     
     bottom_bill =f"""
-                -------------------------------------------------------------------------
+                ------------------------------------------------------------------------------
                                                                             Total :{total:<13}
                                                                             VAT   : 13 %
                                                                       Grand Total :{(total + (total * 0.13)):<13}"""
