@@ -191,7 +191,7 @@ def after_Intro(count,owner_List):
 
 
 
-def returnLandProcess(kitta_Num):
+def returnLandProcess():
     displayTheIntro()
     list_Of_Land = fileReader();
     
@@ -201,15 +201,18 @@ def returnLandProcess(kitta_Num):
         user_Input_kitta ='y';
    
         try:
-            user_Input_kitta = input("Enter a kitta num to return:>>> ")
+            user_Input_kitta = int(input("Enter a kitta num to return:>>> "))
         except:
             while(True):
                 if(user_Input_kitta.strip().isalpha() or len(str(user_Input_kitta).strip()) <3 or user_Input_kitta.isspace()):
                     user_Input_kitta = input("Enter a valid kitta number: > ")
                 else:
                     break;   
+                for value in list_Of_Land:
+                    if(value['Availability'] == 'Not Available'):
+                        pass
 
-        
+
 
 
 
@@ -225,4 +228,5 @@ if(user_Desire == "rent"):
     displayTheIntro();
     after_Intro(count,rented_Land_Owner_List);
 elif(user_Desire == "return"):
-    pass
+    returnLandProcess();
+print("Hello");
