@@ -84,3 +84,19 @@ def bill_maker(name,address,phone,rented_land_Owner_List):
 
 
 
+# import mysql.connector;
+
+# cone = mysql.connector.connect(
+#       host="127.0.0.1",
+#       user="root",
+#       password="",
+#       database="registration"
+# )
+# mycursor  = cone.cursor()
+# mycursor.execute("SELECT * FROM details");
+
+
+# results = mycursor.fetchall();
+
+# print(results);
+
