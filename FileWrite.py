@@ -10,10 +10,8 @@ def updating_Details_in_rentFile(old_details_of_file_As_List,existed_kitta,file_
     for value in old_details_of_file_As_List:
         if(int(value['Kitta'])== existed_kitta):
             value['Availability'] = 'Not Available'
-
-    
             file = open(file_path,'w')
-            file.write('Kitta,Location,Direction(land),Anna,Price(per/month),Availability'+"\n")
+            
             for value in old_details_of_file_As_List:
                 file.write(f"{value['Kitta']},{value['Location']},{value['Direction(land)']},{value['Anna']},{value['Price(per/month)']},{value['Availability']}"+"\n")
             file.close()
@@ -36,25 +34,20 @@ def bill_maker(name,address,phone,rented_land_Owner_List):
                 | SN | Name                                             |      Price         |
                 -----------------------------------------------------------------------------
                 """
-    # invoice = open('rentedLand.txt','w')
+    
     for value in rented_land_Owner_List:
                         
-                       
-                        # print(value)
                         if(value['Name'] == name):
                              i += 1;
                              middle_bill =middle_bill+f"""
                 |{i:^3} | {value['Kitta']}                                              |   {value['Price(per/month)']:^10}      |"""
                              total = total + int(value['Price(per/month)'])
                         else:
-                            
-                            # phone = 
                             value['Name']= name;
                             i += 1;
                             middle_bill =f"""|{i:^3} | {value['Kitta']}                                              |  {value['Price(per/month)']:^10}        |"""
-                            print(total);
                             total = total + int(value['Price(per/month)'])
-                            print(total)
+                            
     
     bottom_bill =f"""
                 ------------------------------------------------------------------------------

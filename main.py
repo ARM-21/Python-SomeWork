@@ -10,29 +10,31 @@ def displayDetailsOfFile():
     list_Of_Land = fileReader();
     count =1;
     for value in list_Of_Land:
-        # print(value);
-        # valuesFor = value.Keys()
-        # print(value.values());
-       
+        
         if count <=1:
+            print("""------------------------------------------------------------------------------------------------------------------------------""")
+            print("""------------------------------------------------------------------------------------------------------------------------------""")
             count= count +1
+            # print("-----------------------------------------------------------------------------------------")
             for k in value.keys():
+                
                 if(k.strip() == "Availability"):
-                     print("{:19}".format(k) + "|",end="\n")
+                     print("|{:^19}".format(k) + "|",end="\n")
+                     print("""------------------------------------------------------------------------------------------------------------------------------""")
                 else:
-                    print("{:19}".format(k) + "|",end="" )
-            # print(end="\n")
+                    print("|{:^19}".format(k) + "|",end="" )
+            
         
         for v in value.values():
             if (v.strip().lower() == "available" or v.strip().lower() == "not available" or v.strip().lower() == "unavailable"):
                 
-                print("{:19}".format(v) +"|",end="\n")
-                # print(sep="")
+                print("|{:^19}".format(v) +"|",end="\n")
+                
 
             else:
                 
-                print("{:19}".format(v) +"|",end="")
-
+                print("|{:^19}".format(v) +"|",end="")
+    print("""------------------------------------------------------------------------------------------------------------------------------""")
 
 
 
@@ -75,7 +77,7 @@ def landPurchase(kittaInputFromUser,count):
                 name_Of_land_owner = input("Enter your name:>")
                 phoneNumber = input("Enter your Phone Number: >>")
 
-                while(len(phoneNumber)<10):
+                while(len(phoneNumber) <10 or not (phoneNumber.isdigit())):
                     phoneNumber = input("Enter a valid phone NUmber:>>")
 
                 period_Of_rent = int(input("For How months do you want to rent(warning:-greater than one month or equal to one month)? > "));
@@ -87,18 +89,12 @@ def landPurchase(kittaInputFromUser,count):
                     # print(rented_Land_Owner_List)
                 else:
                     # count = count+1;
+                    
                     rented_owner_dict = {'Name':name_Of_land_owner,'Duration':period_Of_rent}
                     rented_owner_dict.update(user_Picked_Land_Holder)
                     rented_Land_Owner_List.append(rented_owner_dict)
-                    
-
-                print(rented_Land_Owner_List);
-                print(count);
-                Final_bill=bill_maker(name_Of_land_owner,"jhalunge",phoneNumber,rented_Land_Owner_List)
-              
-                
+                Final_bill=bill_maker(name_Of_land_owner,"jhalun",phoneNumber,rented_Land_Owner_List)
                 updating_Details_in_rentFile(details_Of_File_Holder,kitta_num);
-                # count = count +1;
                 bill_Checker =False;
                 return ("Purchase successfull",count);
                
@@ -116,7 +112,7 @@ def landPurchase(kittaInputFromUser,count):
 
 def ask_user():
     print("<<<<<<<Choose the following options>>>>>")  
-    print("      1.Rent Land \n      2.Return Land \n ")
+    print("      1.Rent Land \n      2.Return Land \n      3.Exit")
     user_choice=0;
     while(user_choice != 1 or user_choice !=2):
         user_choice="y"
@@ -132,6 +128,10 @@ def ask_user():
         elif(user_choice == 2 or user_choice == str(2)):
             return "return"
             break
+        elif(user_choice == 3 or user_choice == str(3)):
+            return "Exit"
+        else:
+            print("* Enter a valid choice *");
 
 
 
@@ -139,7 +139,6 @@ def ask_user():
 def displayTheIntro():
     
     print("\n\n\t\t\t\t<-------- Welcome to Techno Property Nepal --------->\n")
-    print(f"{"searching":10} for land details in file")
 
     displayDetailsOfFile();
     print("\n \t\t\t\t<--------------------------------------------------->")
@@ -177,14 +176,14 @@ def after_Intro(count,owner_List):
 
         message,count= landPurchase(user_picked_kitta_number,count);
         print(message)
-        # count = count +1;
         print(count);
         user_Confirmation_to_exit = input("Do you want to buy again: (y/n) >")
         if (user_Confirmation_to_exit.lower() == "n" or user_Confirmation_to_exit.lower() == "no"):
            userTryAgain = False
-           print(f"{"hello":10s} Printing your bill!! please wait be patience")
-           delayed_Message = Timer(2,bill_printer)
-           delayed_Message.start()
+        #    print(f"{"hello":10s} Printing your bill!! please wait be patience")
+           bill_printer()
+        #    delayed_Message = Timer(2,bill_printer)
+        #    delayed_Message.start()
         else:
             displayTheIntro()
 
@@ -222,11 +221,17 @@ count =1;
 bill_Checker = False;
 rented_Land_Owner_List = [];     
 
-user_Desire = ask_user()
-           
-if(user_Desire == "rent"):
-    displayTheIntro();
-    after_Intro(count,rented_Land_Owner_List);
-elif(user_Desire == "return"):
-    returnLandProcess();
-print("Hello");
+user_Desire=True;
+while(user_Desire):
+    displayTheIntro()
+    user_Desire = ask_user()
+            
+    if(user_Desire == "rent"):
+        # displayTheIntro()
+        after_Intro(count,rented_Land_Owner_List);
+    elif(user_Desire == "return"):
+        returnLandProcess()
+    elif(user_Desire == "Exit"):
+        user_Desire = False;
+
+

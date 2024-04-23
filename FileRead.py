@@ -9,11 +9,13 @@ def fileReader(filePath='rent_details.txt'):
     dataInList = mainFile.readlines()
     # print(dataInList);
     listForKey = dataInList[0].strip().split(',');
+    listForKey = ["Kitta","Location","Direction(land)","Anna","Price(per/month)","Availability"]
+    
     # print(listForKey);
     for i in range(len(dataInList)):
         valueForDict = [];
-        if i == 0:
-            continue
+        # if i == 0:
+        #     continue
         # print(valueForDict);
         valueForDict = dataInList[i].strip().split(',');
         # print(valueForDict)
