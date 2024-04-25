@@ -1,4 +1,4 @@
-from FileRead import fileReader
+from fileRead import fileReader
 from datetime import datetime 
 # listOF = fileReader() 
 
@@ -24,7 +24,7 @@ def updating_Details_in_rentFile(old_details_of_file_As_List,existed_kitta,from_
 
 
 def bill_maker(name,address,phone,rented_land_Owner_List,month,price=0):
-    # phone="984000000"
+    
     middle_bill = ""
     total =0
     i =0 
@@ -71,6 +71,54 @@ def bill_maker(name,address,phone,rented_land_Owner_List,month,price=0):
     file.close()
     return bill_format 
 
+
+# def bill_maker(name,address,phone,rented_land_Owner_List,month,price=0):
+    
+#     middle_bill = ""
+#     total =0
+#     i =0 
+#     top_bill =f"""
+#     =========================================================================================================
+#     |                                        Techno Property Nepal                                          |
+#     |                               Hospital Chowk  -   10, Pokhara Nepal                                   |
+#     |                    VAT:5999524                             Ph. No: {phone:10}                         |
+#     |=======================================================================================================|
+#     |              Name : {name:<20}                              Date: {datetime.now().date()}                |
+#     |              Address : {address:<15}                                                                |
+#     |              Phone: {phone:<10}                                                                        |
+#     |-------------------------------------------------------------------------------------------------------|
+#     |-------------------------------------------------------------------------------------------------------|
+#     | SN |     Kitta      |  Location     |   Anna   |  Direction    |  Duration       |   Price            |
+#     |-------------------------------------------------------------------------------------------------------|"""
+#     for value in rented_land_Owner_List:
+                        
+#                         if(value['Name'] == name):
+#                              i += 1
+#                              middle_bill =middle_bill+f"""
+#     |{i:^4}|{value['Kitta']:^16}|{value['Location']:^15}|{value['Anna']:^10}|{value['Direction(land)']:^15}|    {value['Duration']:^13}| {value['Price(per/month)']:^19}|"""
+#                              total = total + (int(value['Price(per/month)'])*int(month))+int(price)
+#                         else:
+#                             i +=1
+#                             middle_bill =middle_bill + f"""
+#     |{i:^4}|{value['Kitta']:^16}|{value['Location']:^15}|{value['Anna']:^10}|{value['Direction(land)']:^15}|    {value['Duration']:^13}|{value['Price(per/month)']:^18} |"""
+#                             total = total + (int(value['Price(per/month)'])*int(month))+int(price)   
+    
+#     bottom_bill =f"""
+#     ---------------------------------------------------------------------------------------------------------
+#     |                                                                        Total :{total:<18}      |
+#     |                                                                        VAT   : 13 %                   |
+#     |                                                                  Grand Total :{(total + (total * 0.13)):<22}|
+#     --------------------------------------------------------------------------------------------------------
+#     """
+                           
+#                         # break 
+
+               
+#     bill_format = top_bill+middle_bill+bottom_bill 
+#     file = open("rentedLand.txt","w")
+#     file.write(bill_format) 
+#     file.close()
+#     return bill_format 
 
 
 
