@@ -2,10 +2,12 @@ from fileRead import fileReader
 from fileWrite import *
 from datetime import datetime 
 from fileWrite import bill_maker 
-from threading import Timer 
-# from math import 
+from fileWrite import counter
+
+ 
 Final_bill = "" 
 rented_Land_Owner_List = []  
+returnable_Land_Owner_List = []
 user_Phone_Number1 = 0
 user_address1 = ""
 name_of_land_owner1 = ""
@@ -85,7 +87,7 @@ def display_Details_Of_File():
 
 
 """This is the process after displaying intro to the user which asks kitta from user and do other prcess"""
-def after_Intro(count,owner_List,name,address,phone):
+def after_Intro(count,owner_List):
     file = open('rentedLand.txt','w')
     bill = f"""{file.write("")}"""
     file.close()
@@ -102,15 +104,13 @@ def after_Intro(count,owner_List,name,address,phone):
             user_picked_kitta_number = int(user_picked_kitta_number)
  
 
-        message,count= land_Purchase(user_picked_kitta_number,count,name,address,phone) 
+        message,count= land_Purchase(user_picked_kitta_number,count) 
         print(message)
         user_Confirmation_to_exit = input("Do you want to buy again: (y/n) >")
         if (user_Confirmation_to_exit.lower() == "n" or user_Confirmation_to_exit.lower() == "no"):
             userTryAgain = False
-        #    print(f"{"hello":10s} Printing your bill!! please wait be patience")
+            counter=0
             bill_printer()
-        #    delayed_Message = Timer(2,bill_printer)
-        #    delayed_Message.start()
         else:
             display_The_Intro()
 
@@ -118,7 +118,7 @@ def after_Intro(count,owner_List,name,address,phone):
 
 """This method accepts the kitta number input by user and look for the kiita number in file if exists then further process like renting and occurs"""
 
-def land_Purchase(kittaInputFromUser,count,name_of_land_owner,user_address,user_Phone_Number):
+def land_Purchase(kittaInputFromUser,count):
     """this method takes a input from a user and checks whether the land is available or not \n
     and returns """
     
@@ -184,7 +184,7 @@ def land_Purchase(kittaInputFromUser,count,name_of_land_owner,user_address,user_
                 #     rented_owner_dict.update(user_Picked_Land_Holder)
                 #     rented_Land_Owner_List.append(rented_owner_dict)
                 #     Final_bill=bill_maker(name_of_land_owner1,user_address1,user_Phone_Number1,rented_Land_Owner_List,period_Of_rent)
-                Final_bill=bill_maker(name_of_land_owner1,user_address1,user_Phone_Number1,rented_Land_Owner_List,period_Of_rent)
+                Final_bill=bill_maker(rented_Land_Owner_List,user_Picked_Land_Holder,from_where='rent',count=count)
                 updating_Details_in_rentFile(details_Of_File_Holder,kitta_num,'rent') 
                 bill_Checker =False 
                 return ("Purchase successfull",count) 
@@ -200,9 +200,8 @@ def land_Purchase(kittaInputFromUser,count,name_of_land_owner,user_address,user_
         after_Intro(count,rented_Land_Owner_List)
 
 
-def return_Land_Process(count,returnable_land):
-    
-    # displayTheIntro()
+def return_Land_Process(count,user_picked_returnable_land):
+
     list_Of_Land = fileReader() 
    
     
@@ -215,25 +214,11 @@ def return_Land_Process(count,returnable_land):
         result_Of_Checker =kitta_Available_Checker(user_Input_Kitta,list_Of_Land)
         if( result_Of_Checker != "null"):
             if(list_Of_Land[result_Of_Checker]['Availability'] == "Not Available"):
-                phone =0;
-                address= ""
-                if(count == 1):
-                    user_name = input("Enter your name>>>")
-                    while(user_name.isdigit() or len(user_name) < 3):
-                        user_name = input("Enter a valid name>>> ")
-                    address = input("Enter your current address>>")
-                    while(len(user_address)<5):
-                        address = input("Address must be greater than 5 char >>>>")
-                    user_address=address  
+                user_picked_returnable_land = list_Of_Land[result_Of_Checker]
 
-                    phone=input("Enter your phone number +977 ")
-                    user_input_validator(phone)
-                    while(len(str(phone)) != 10 or str(phone).isalpha()):
-                        phone=user_input_validator("Please enter a length = 10  phone number +977 ")
-                    user_Phone_Number = phone
-                else:
+                if(count == 1):
                     user_month = input("Enter for how many months you have rented?>>>")
-                    user_input_validator(user_month)
+                    user_month = user_input_validator(user_month)
                     while(int(user_month)<1 or int(user_month)>12):
                         user_month = input("Enter a valid months you have rented?>>>")
                     
@@ -242,33 +227,22 @@ def return_Land_Process(count,returnable_land):
                     while(int(current_month)<1 or int(current_month)>12 or current_month.isalpha()):
                         current_month = input("Enter the running month>>>>")
                     user_input_validator(current_month)
-
-                if(count == 1):
-                    count +=1
-                    user_new_Entered_deatils = {'Name':'','Duration':current_month}
-                    user_returnable_land = list_Of_Land[result_Of_Checker]
-                    user_returnable_land.update(user_new_Entered_deatils);
-                    returnable_land.append(user_returnable_land)
-                    print(user_returnable_land)
+                    if(int(current_month) > int(user_month)):
+                        exceded_Month = int(current_month) - int(user_month)
+                        penalty_Price = int(exceded_Month) * 20000
+                        print("<---------------------      you have exceded the time limit        ------------->")
+                        print("<----------------------     penalty will added to your bill         ------------>")
+                        print( f"""<-----------------          {exceded_Month} month-> {penalty_Price}               ------------->""")
+                        
+                        bill_maker(returnable_Land_Owner_List,user_picked_returnable_land,count,month=current_month,price=penalty_Price,from_where='return')
+                    else:
+                        bill_maker(returnable_Land_Owner_List,user_picked_returnable_land,count,month=current_month,from_where='return')
+                    
                 else:
-                    user_new_Entered_deatils = {'Name':user_name,'Duration':current_month}
-                    user_returnable_land = list_Of_Land[result_Of_Checker]
-                    user_returnable_land.update(user_new_Entered_deatils)
-                    returnable_land.append(user_returnable_land)
-                    print(user_returnable_land)
-            
-                if(int(current_month) > int(user_month)):
-                    print("<---------------------      you have exceded the time limit        ------------->")
-                    print("<----------------------     penalty will added to your bill         ------------>")
-                    print("                             penalty>> 1.month-> 20000")
-                    exceded_Month = int(current_month) - int(user_month)
-                    penalty_Price = int(exceded_Month) * 20000
-                    bill_maker(user_name,user_address,user_Phone_Number,returnable_land,user_month,penalty_Price)
-                else:
-                   bill_maker(user_name,user_address,user_Phone_Number,returnable_land,user_month)
-                # print(list_Of_Land)
+                  bill_maker(returnable_Land_Owner_List,user_picked_returnable_land,count,from_where="return")     
+                    
                 updating_Details_in_rentFile(list_Of_Land,user_Input_Kitta,"return")
-                # print(final_bill);
+                
                 return "Return sucessfull",count
                 
                 
@@ -280,22 +254,28 @@ def return_Land_Process(count,returnable_land):
             continue  
 def land_return_starter(count,owner_List):
     userTryAgain = True
+    file = open('rentedLand.txt','w')
+    bill = f"""{file.write("")}"""
+    file.close()
     while(userTryAgain):
         message,count= return_Land_Process(count,owner_List)
         print(message)
         user_Confirmation_to_exit = input("Do you want to return the land again: (y/n) >")
         if (user_Confirmation_to_exit.lower() == "n" or user_Confirmation_to_exit.lower() == "no"):
             userTryAgain = False
-        #    print(f"{"hello":10s} Printing your bill!! please wait be patience")
+            counter =0
             bill_printer()
-        #    delayed_Message = Timer(2,bill_printer)
-        #    delayed_Message.start()
         else:
             display_The_Intro()
 
 
-
-
+def month_validator(month):
+    is_month_true = False
+    while(month < 1 ):
+        month = input("Enter a valid months you have rented?>>> ")
+        is_month_true = True
+    if(is_month_true):
+        return month
 
     
     
