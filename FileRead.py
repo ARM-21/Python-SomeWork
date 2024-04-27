@@ -1,3 +1,4 @@
+
 def fileReader(filePath='rent_details.txt'):
     """(This method reads the given file path and returns the values in list containing each element as dictionary.)\n
     argument---> str\n
