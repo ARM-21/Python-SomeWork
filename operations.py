@@ -1,24 +1,16 @@
 from fileRead import fileReader 
 from fileWrite import * 
 from fileWrite import bill_maker
-# from fileWrite import counter 
 
+""" ask_user() method returns a string value based on user valid input i.e 1,2,3,4 otherwise print error message"""
+def ask_user() -> str:
+    """Return String if user chooses a valid options  prints error message otherwise
+    ((((  String----> \n 1.details \n 2.rent \n 3.return\n 4.exit  ))))"""
 
+    
 
- 
-Final_bill = "" 
-rented_Land_Owner_List = []  
-returnable_Land_Owner_List = []
-user_Phone_Number1 = 0
-user_address1 = ""
-name_of_land_owner1 = ""
-
-counter_for_entry = 0
-
-def ask_user():
-    global counter
     print("<<<<<<<Choose the following options>>>>>")  
-    print("<----1.Display Details---->\n<----2.Rent Land----> \n<----3.Return Land---->\n<----4.Exit---->")
+    print("     1.Display Details     \n     2.Rent Land      \n     3.Return Land     \n     4.Exit     ")
     user_choice=0 
     while(user_choice != 1 or user_choice !=2 or user_choice != 3 or user_choice !=4):
         user_choice="y"
@@ -30,13 +22,9 @@ def ask_user():
 
         if(user_choice == 1 or user_choice == str(1)):
             return "details"
-            # break
         elif(user_choice == 2 or user_choice == str(2)):
-            counter=0
             return "rent"
-            # break
         elif(user_choice == 3 or user_choice == str(3)):
-            counter=0
             return "return"
         elif(user_choice == 4 or user_choice == str(4)):
             return "exit"
@@ -47,9 +35,10 @@ def ask_user():
 
 
 
-"""It displays the welcoming intro and details of land available with it's different details like kitta and location"""
+
 def display_The_Intro():
-    
+    """It displays the welcoming intro and details of land available with it's different details like kitta and location"""
+
     print("\n\n\t\t\t\t<-------- Welcome to Techno Property Nepal --------->\n")
 
     display_Details_Of_File() 
@@ -59,17 +48,20 @@ def display_The_Intro():
 
 
 
-"""This is method is used to gather the details in rent_details file and displays the information in tabular format"""
+
 def display_Details_Of_File():
-    list_Of_Land = fileReader() 
+    """This is method is used to gather the details in rent_details file and displays the information in tabular format"""
+
+
+    list_of_land = fileReader() 
     count =1 
-    for value in list_Of_Land:
+    for value in list_of_land:
         
         if count <=1:
             print("""------------------------------------------------------------------------------------------------------------------------------""")
             print("""------------------------------------------------------------------------------------------------------------------------------""")
             count= count +1
-            # print("-----------------------------------------------------------------------------------------")
+         
             for k in value.keys():
                 
                 if(k.strip() == "Availability"):
