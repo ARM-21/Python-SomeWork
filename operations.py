@@ -1,35 +1,64 @@
 from fileRead import fileReader 
 from fileWrite import * 
-from fileWrite import bill_maker
+# from fileWrite import bill_maker
 
 """ ask_user() method returns a string value based on user valid input i.e 1,2,3,4 otherwise print error message"""
-def ask_user() -> str:
+# This function asks the user to choose an option and returns a string based on the user's input.
+
+def ask_user():
     """Return String if user chooses a valid options  prints error message otherwise
     ((((  String----> \n 1.details \n 2.rent \n 3.return\n 4.exit  ))))"""
 
-    
+    # Display options for the user to choose from.
+    # Print welcome message and options
+    menu_options = {
+        1: "Enter 1 to Show the details ",
+        2: "Enter 2 to Rent the land",
+        3: "Enter 3 to Return rented land",
+        4: "Enter 4 to Exit the program"
+    }
 
-    print("<<<<<<<Choose the following options>>>>>")  
-    print("     1.Display Details     \n     2.Rent Land      \n     3.Return Land     \n     4.Exit     ")
-    user_choice=0 
-    while(user_choice != 1 or user_choice !=2 or user_choice != 3 or user_choice !=4):
-        user_choice="y"
-        while(str(user_choice).strip().isalpha() or str(user_choice).isspace()):
+    # Print the menu header
+    print("\t"+"[S.N.]\t                Menu")
+    print("\t\t"+"-" * 50)  # it will print "-" 50 times
+
+    # Print each menu option with its corresponding number
+    for number, option in menu_options.items():
+        
+        print("\t"+f"  [{number }]\t       {   option}")
+        print("\t\t"+"-"*50)
+
+
+    # print("     1. Display Details     \n     2. Rent Land      \n     3. Return Land     \n     4. Exit     ")
+    
+    user_choice = 0  # Initialize user_choice variable
+    
+    # Keep asking for user input until a valid choice is made
+    while user_choice not in [1, 2, 3, 4]:
+        user_choice = "y"  # Initialize user_choice with a non-integer value
+        print("\n")
+        # Keep asking for user input until a valid numeric choice is entered
+        while str(user_choice).strip().isalpha() or str(user_choice).isspace():
+
             try:
                 user_choice = int(input("Enter your choice>>>> "))
             except:
                 user_choice = input("Enter a valid choice>>>")
 
-        if(user_choice == 1 or user_choice == str(1)):
+        # Return a string based on the user's choice
+        if user_choice == 1 or user_choice == str(1):
             return "details"
-        elif(user_choice == 2 or user_choice == str(2)):
+        elif user_choice == 2 or user_choice == str(2):
             return "rent"
-        elif(user_choice == 3 or user_choice == str(3)):
+        elif user_choice == 3 or user_choice == str(3):
             return "return"
-        elif(user_choice == 4 or user_choice == str(4)):
+        elif user_choice == 4 or user_choice == str(4):
             return "exit"
         else:
-            print("* Enter a valid choice *") 
+            # Print an error message for invalid choices
+            print("* Enter a valid choice *")
+        
+
 
 
 
@@ -39,10 +68,10 @@ def ask_user() -> str:
 def display_The_Intro():
     """It displays the welcoming intro and details of land available with it's different details like kitta and location"""
 
-    print("\n\n\t\t\t\t<-------- Welcome to Techno Property Nepal --------->\n")
+    print("\n\n\t\t\t\t+--------------- Welcome to Techno Property Nepal ---------------+\n")
 
     display_Details_Of_File() 
-    print("\n \t\t\t\t<--------------------------------------------------->")
+    print("\n \t\t\t\t+------------------------------------------------------+")
     print("\n\t\t\t__________Choose kitta number to buy a Available land________\n")
 
 
@@ -61,12 +90,12 @@ def display_Details_Of_File():
             print("""------------------------------------------------------------------------------------------------------------------------------""")
             print("""------------------------------------------------------------------------------------------------------------------------------""")
             count= count +1
-         
+
             for k in value.keys():
                 
                 if(k.strip() == "Availability"):
-                     print("|{:^19}".format(k) + "|",end="\n")
-                     print("""------------------------------------------------------------------------------------------------------------------------------""")
+                    print("|{:^19}".format(k) + "|",end="\n")
+                    print("""------------------------------------------------------------------------------------------------------------------------------""")
                 else:
                     print("|{:^19}".format(k) + "|",end="" )
             
@@ -100,7 +129,7 @@ def after_Intro(count,rented_list_by_user):
             user_picked_kitta_number = int(user_input_validator(user_picked_kitta_number))
         else:
             user_picked_kitta_number = int(user_picked_kitta_number)
- 
+
         try:
             message,count,rented_list_by_user= land_Purchase(user_picked_kitta_number,rented_list_by_user,count)
             print(message) 
@@ -115,7 +144,7 @@ def after_Intro(count,rented_list_by_user):
             return rented_list_by_user
         else:
             display_The_Intro()
-            # return rented_list_by_user
+        
 
 
 """This method accepts the kitta number input by user and look for the kiita number in file if exists then further process like renting and occurs"""
@@ -132,7 +161,7 @@ def land_Purchase(kittaInputFromUser,rented_list_by_user,count):
     kitta_num = kittaInputFromUser 
     indexing_for_existed_kitta=0 
     for i in range(len(details_Of_File_Holder)):
-   
+
         if(int(details_Of_File_Holder[i]['Kitta']) == kittaInputFromUser ):
             kitta_num = kittaInputFromUser
             indexing_for_existed_kitta = i 
@@ -151,12 +180,12 @@ def land_Purchase(kittaInputFromUser,rented_list_by_user,count):
             user_Confirmation = input(f"Are you sure to buy kitta no {kittaInputFromUser} of price {user_Picked_Land_Holder['Price(per/month)']}: (y/n)")
 
             if(user_Confirmation.lower() == "y" or user_Confirmation.lower() == "yes"):
-               
-                count,rented_list_by_user=bill_maker(rented_list_by_user,user_Picked_Land_Holder,from_where='rent',count=count)
+            
+                count,rented_list_by_user=bill_maker(rented_list_by_user,user_Picked_Land_Holder,count=count)
                 updating_Details_in_rentFile(details_Of_File_Holder,kitta_num,'rent') 
-             
+            
                 return ("Purchase successfull",count,rented_list_by_user) 
-               
+            
             else:
                 return "failed",count,rented_list_by_user
         else:
@@ -172,7 +201,7 @@ def land_Purchase(kittaInputFromUser,rented_list_by_user,count):
 def return_Land_Process(user_input_kitta,count,user_picked_returnable_land):
 
     list_Of_Land = fileReader() 
-   
+
     
     userTryAgain = True
     while(userTryAgain):
@@ -202,7 +231,7 @@ def return_Land_Process(user_input_kitta,count,user_picked_returnable_land):
                     count,user_picked_returnable_land=return_bill_maker(current_picked_land,user_picked_returnable_land,count=count,month=current_month,price=penalty_Price)
                 else:
                   count,user_picked_returnable_land = return_bill_maker(current_picked_land,user_picked_returnable_land,count=count,month=current_month)
-                      
+                    
                     
                 updating_Details_in_rentFile(list_Of_Land,user_input_kitta,"return")
                 
@@ -210,7 +239,7 @@ def return_Land_Process(user_input_kitta,count,user_picked_returnable_land):
                 
                 
             else:
-                print("The land of kitta number"+str(user_input_kitta+"is available on sale"))
+                print("The land of kitta number "+str(user_input_kitta+" is available on sale"))
                 return "failed",count,user_picked_returnable_land
         else:
             print("Kitta Number Doesn't Exist")
@@ -238,8 +267,6 @@ def land_return_starter(count,user_picked_returnable_land):
         user_Confirmation_to_exit = input("Do you want to return the land again: (y/n) >")
         if (user_Confirmation_to_exit.lower() == "n" or user_Confirmation_to_exit.lower() == "no"):
             userTryAgain = False
-            # count =0
-            # user_picked_returnable_land=[]
             bill_printer()
             return user_picked_returnable_land
         else:
@@ -293,5 +320,5 @@ def user_input_validator(user_input):
             return user_input
     return user_input
 
-  
+
         

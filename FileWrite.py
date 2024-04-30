@@ -1,8 +1,5 @@
 
 from datetime import datetime 
-# from main import isCounterTrue
-# listOF = fileReader() 
-# from operations import counter  
 
 
 def updating_Details_in_rentFile(old_details_of_file_As_List,existed_kitta,from_Where,file_path="rent_details.txt"):
@@ -52,7 +49,7 @@ def bill_maker(rented_list,user_Picked_Land_Holder,count,month=0):
                 user_address_holder = address
                 user_phone_holder = phone
             
-                   
+                
     else:
         
                 count = count +1
@@ -62,10 +59,11 @@ def bill_maker(rented_list,user_Picked_Land_Holder,count,month=0):
                 rented_owner_dict.update(user_Picked_Land_Holder)
                 rented_list.append(rented_owner_dict)
             
-             
+            
         
     top_rented_bill =f"""
     =========================================================================================================
+    |bill No:-{int(datetime.now().timestamp()):10}                                                                                   |
     |                                        Techno Property Nepal                                          |
     |                               Hospital Chowk  -   10, Pokhara Nepal                                   |
     |                    VAT:5999524                             Ph. No: {user_phone_holder:10}                         |
@@ -79,24 +77,24 @@ def bill_maker(rented_list,user_Picked_Land_Holder,count,month=0):
     |-------------------------------------------------------------------------------------------------------|"""
     for value in rented_list:
                         
-                        if(value['Name'] == user_name_holder and count > 1):
-                             count = count +1
-                             i += 1
-                             middle_rented_bill =middle_rented_bill+f"""
+            if(value['Name'] == user_name_holder and count > 1):
+                    count = count +1
+                    i += 1
+                    middle_rented_bill =middle_rented_bill+f"""
     |{i:^4}|{value['Kitta']:^16}|{value['Location']:^15}|{value['Anna']:^10}|{value['Direction(land)']:^15}|    {value['Duration']:^13}| {value['Price(per/month)']:^19}|"""
-                             total = total + (int(value['Price(per/month)'])*int(month))+int(price)
-                        else:
-                            i+=1
-                            count += 1
-                            middle_rented_bill =  f"""
+                    total = total + (int(value['Price(per/month)'])*int(month))
+            else:
+                i+=1
+                count += 1
+                middle_rented_bill = f"""
     |{i:^4}|{value['Kitta']:^16}|{value['Location']:^15}|{value['Anna']:^10}|{value['Direction(land)']:^15}|    {value['Duration']:^13}| {value['Price(per/month)']:^19}|"""
-                            total = total + (int(value['Price(per/month)'])*int(month))+int(price)   
+                total = total + (int(value['Price(per/month)'])*int(month))   
     
     bottom_rented_bill =f"""
     ---------------------------------------------------------------------------------------------------------
     |                                                                        Total :{total:<18}      |
     |                                                                        VAT   : 13 %                   |
-    |                                                                  Grand Total :{(total + (total * 0.13)):<22}|
+    |                                                                  Grand Total :{(total + (total * 0.13)):<22} |
     --------------------------------------------------------------------------------------------------------
     """
 
@@ -139,7 +137,7 @@ def return_bill_maker(user_Picked_Land_Holder,return_list,count,month,price=0):
         phone= input("Enter len()=10 your Phone Number: >>")
                         
         while(len(phone) <10 or not (phone.isdigit())):
-            phone = input("Enter a length=10 of  phone Number:>>")
+            phone = input("Enter a valid int phone length=10 of  phone Number:>>")
 
         address = input("Enter your address>>> ")
         rented_owner_dict = {'Name':name,'Duration':month}
@@ -161,6 +159,7 @@ def return_bill_maker(user_Picked_Land_Holder,return_list,count,month,price=0):
 
     top_return_bill = f"""
     =========================================================================================================
+    |bill No:-{int(datetime.now().timestamp()):10}                                                                                    |
     |                                        Techno Property Nepal                                          |
     |                               Hospital Chowk  -   10, Pokhara Nepal                                   |
     |                    VAT:5999524                             Ph. No: {user_phone_holder:10}                         |
@@ -174,30 +173,29 @@ def return_bill_maker(user_Picked_Land_Holder,return_list,count,month,price=0):
     |-------------------------------------------------------------------------------------------------------|"""
     i = 0
     for value in return_list:
-        if (value['Name'] == user_address_holder and count > 1) :
-            i += 1
-            middle_return_bill = middle_return_bill + f"""
+                if (value['Name'] == user_address_holder and count > 1) :
+                    i += 1
+                    middle_return_bill = middle_return_bill + f"""
     |{i:^4}|{value['Kitta']:^16}|{value['Location']:^15}|{value['Anna']:^10}|{value['Direction(land)']:^15}|    {value['Duration']:^13}| {value['Price(per/month)']:^19}|"""
-            total_return = total_return + (int(value['Price(per/month)']) * int(month)) + int(price)
-        else:
-            i += 1
-            middle_return_bill = middle_return_bill+f"""
+                    total_return = total_return + (int(value['Price(per/month)']) * int(month)) + int(price)
+                else:
+                    i += 1
+                    middle_return_bill = middle_return_bill+f"""
     |{i:^4}|{value['Kitta']:^16}|{value['Location']:^15}|{value['Anna']:^10}|{value['Direction(land)']:^15}|    {value['Duration']:^13}| {value['Price(per/month)']:^19}|"""
-            total_return = total_return + (int(value['Price(per/month)']) * int(month)) + int(price)
+                    total_return = total_return + (int(value['Price(per/month)']) * int(month)) + int(price)
 
     bottom_return_bill = f"""
     ---------------------------------------------------------------------------------------------------------
     |                                                                        Total :{total_return:<18}      |
     |                                                                        VAT   : 13 %                   |
-    |                                                                  Grand Total :{(total_return + (total_return * 0.13)):<22}|
+    |                                                                  Grand Total :{(total_return + (total_return * 0.13)):<22}  |
     --------------------------------------------------------------------------------------------------------
     """
 
     
     return_bill_format = top_return_bill + middle_return_bill + bottom_return_bill
-   
-
     file = open("rentedLand.txt","w")
     file.write(return_bill_format) 
     file.close()
     return count,return_list
+
