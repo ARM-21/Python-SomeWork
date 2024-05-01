@@ -25,11 +25,14 @@ user_phone_holder = 0
 def bill_maker(rented_list,user_Picked_Land_Holder,count,month=0):
     global user_address_holder,user_phone_holder,user_name_holder
     middle_rented_bill = ""
-    total =0
-    i =0 
     name =""
-    phone =0
     address=""
+
+    i =0 
+    total =0
+    phone =0
+
+   
     if(count == 0):
                 count = count + 1
     
@@ -198,4 +201,5 @@ def return_bill_maker(user_Picked_Land_Holder,return_list,count,month,price=0):
     file.write(return_bill_format) 
     file.close()
     return count,return_list
+
 
