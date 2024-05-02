@@ -10,7 +10,6 @@ rented_list_by_user = []
 list_Of_user_returnable_land = []
 
 # Prints a decorative banner of Techno property nepal
-# Banner =
 
 print(f"""
 
@@ -54,7 +53,7 @@ while (user_Desire):
 
     # Exit the loop if user enters anything else
     else:
-        user_Desire = False  # Set flag to False to exit the loop
+        user_Desire = False  # Set user_desire to False to exit the loop
         print(f"""
  _____ _                  _                            __             __     ___     _   _               __  
  |_   _| |__   __ _ _ __ | | __   _   _  ___  _   _   / _| ___  _ __  \ \   / (_)___| |_(_)_ __   __ _   \ \ 

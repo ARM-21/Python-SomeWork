@@ -143,12 +143,14 @@ def after_Intro(count, rented_list_by_user):
     bill = f"""{file.write("")}"""
     file.close()
     
-    # Set the flag for user's continuation
+    # Sets the Boolean variable to True for loop
     userTryAgain = True
     
-    # Loop for user's interaction
+    # Loop 
     while userTryAgain:
+        # String variable to store message like successfull,failure.Initailization with empty string 
         message = ""
+        # assignment of kitta to a string value
         user_picked_kitta_number = 'y'
         
         # Ask user to input kitta number of the available land
@@ -161,7 +163,7 @@ def after_Intro(count, rented_list_by_user):
             user_picked_kitta_number = int(user_picked_kitta_number)
 
         try:
-            # executing land purchase process by calling land_Purchase()
+            # executing land purchase process by calling land_Purchase() and capturing the returned value in tuple
             message, count, rented_list_by_user = land_Purchase(user_picked_kitta_number, rented_list_by_user, count)
             print(message) 
         except:
@@ -202,7 +204,7 @@ def land_Purchase(kittaInputFromUser,rented_list_by_user,count):
     print(kittaInputFromUser) 
     details_Of_File_Holder = fileReader()
     user_Picked_Land_Holder= {} 
-    
+    # Boolean variable to check existing kitta num
     kitta_num_existing_checker = False
     kitta_num = kittaInputFromUser 
     indexing_for_existed_kitta=0 
@@ -212,6 +214,7 @@ def land_Purchase(kittaInputFromUser,rented_list_by_user,count):
         if(int(details_Of_File_Holder[i]['Kitta']) == kittaInputFromUser ):
             kitta_num = kittaInputFromUser
             indexing_for_existed_kitta = i 
+        # setting kitta_existing_checker to true
             kitta_num_existing_checker=True
             
             

@@ -4,18 +4,21 @@ def fileReader(filePath='rent_details.txt'):
     argument---> str\n
     returns---> list
     """
-    newDict = {}
-    updatedList = []
-    mainFile = open(filePath)
-    dataInList = mainFile.readlines()
-    listForKey = dataInList[0].strip().split(',');
-    listForKey = ["Kitta","Location","Direction(land)","Anna","Price(per/month)","Availability"]
+    # Initialization:
+    newDict = {}  # Create an empty dictionary
+    # using a list datatype to hold all the details form rent_details.txt file
+    updatedList = []   # Initialize an empty list for dictionaries
+    mainFile = open(filePath)   #Opening the File:
+    dataInList = mainFile.readlines()  # Read lines from the file
+    # example for list to store keys 
+    listForKey = ["Kitta","Location","Direction(land)","Anna","Price(per/month)","Availability"] #for keys in dictionary
+
     for i in range(len(dataInList)):
-        valueForDict = [];
-        valueForDict = dataInList[i].strip().split(',');
-        newDict = newDict.fromkeys(listForKey);
+        valueForDict = []
+        valueForDict = dataInList[i].strip().split(',')   # Split line into values
+        newDict = newDict.fromkeys(listForKey)   # Create a dictionary with keys
         for j in range(len(valueForDict)):
-            newDict[listForKey[j]] = valueForDict[j]
-        updatedList.append(newDict)
-    mainFile.close()
-    return updatedList;   
+            newDict[listForKey[j]] = valueForDict[j]   # Assign values to keys in the dictionary
+        updatedList.append(newDict) # Add dictionary to the list
+    mainFile.close()  # Close the file
+    return updatedList;     # Return the list of dictionaries
