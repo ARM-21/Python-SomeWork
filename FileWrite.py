@@ -34,7 +34,7 @@ def updating_Details_in_rentFile(old_details_of_file_As_List,existed_kitta,from_
             # Close the file.
             file.close()
 
-
+# assigning a global variable to empty and 0 respectively
 user_name_holder=""
 user_address_holder =""
 user_phone_holder = 0
@@ -42,50 +42,82 @@ user_phone_holder = 0
 
 
 def user_input_validator(user_input):
+    """
+    This function validates user input to ensure it is an integer.
+
+    Args:
+        user_input (str): The user input to be validated.
+
+    Returns:
+        int: The validated integer input.
+    """
     while( not user_input.isdigit()):
         try:
             user_input = int(input("Enter a valid int input>>>"))
         except:
             print("<---------Enter a valid int input------>")
             continue
+        # returns the user_input if user inputs integer
         if(str(user_input).isdigit()):
             return user_input
     return user_input
 
 def return_bill_maker(user_Picked_Land_Holder,return_list,count,month,price=0):
-    name = ""
-    phone = ""
-    address = ""
-    total_return =0
-    global user_name_holder,user_phone_holder,user_address_holder
-    middle_return_bill = ""
+    """
+        This function generates a bill for returning rented land, which contains user details and rental information.
+
+        Arguments:
+            user_Picked_Land_Holder (dict): A dictionary containing details of the rented land.
+            return_list (list): A list containing dictionaries representing rented lands.
+            count (int): A counter to track the number of looping.
+            month (int): The duration for rented land.
+            price (int): The penalty price. Defaults to 0.
+
+        Returns:
+            tuple: A tuple containing the updated count and return_list.
+    """
+
+    name = ""  # User's name
+    phone = ""  # User's phone number
+    address = ""  # User's address
+    total_return = 0  # Total amount to be returned
+    global user_name_holder, user_phone_holder, user_address_holder  # Global variables to store user information
+    middle_return_bill = ""  # Middle part of the bill
+
+    # Check if this is the first transaction
     if(count== 0):
         count = count+1
-                
+        # Accept user details like name,phone
         name = input("Enter your name:>>>")
-        phone= input("Enter len()=10 your Phone Number: >>")
-                        
+        phone= input("Enter len()=10 your Phone Number: >>") 
+        # Validate phone number length and format               
         while(len(phone) <10 or not (phone.isdigit())):
             phone = input("Enter a valid int phone length=10 of  phone Number:>>")
 
         address = input("Enter your address>>> ")
-        rented_owner_dict = {'Name':name,'Duration':month}
-        rented_owner_dict.update(user_Picked_Land_Holder)
+        # Creating dictionary for the rented land and update with user details
+        rented_owner_dict = {'Name':name,'Duration':month}# Initialize dictionary with user's name and duration of rental
+        rented_owner_dict.update(user_Picked_Land_Holder) # Update dictionary with details of the rented land
+        # Appending the dictionary to the return list
         return_list.append(rented_owner_dict)
+        # Updating global variables with user information
         user_name_holder = name
         user_address_holder=address
         user_phone_holder = phone
 
     else:
         count = count + 1
+        # Creating dictionary for the rented land and update with user details
         rented_owner_dict = {'Name':user_name_holder,'Duration':month}
+        # Initializing dictionary with user's name and duration of rental
         rented_owner_dict.update(user_Picked_Land_Holder)
+        # Updating dictionary with details of the rented land
         return_list.append(rented_owner_dict)
 
 
 
 
-
+# This is the top part of the bill format
     top_return_bill = f"""
     =========================================================================================================
     |bill No:-{int(datetime.now().timestamp()):10}                                                                                    |
@@ -101,27 +133,33 @@ def return_bill_maker(user_Picked_Land_Holder,return_list,count,month,price=0):
     | SN |     Kitta      |  Location     |   Anna   |  Direction    |  Duration       |       Price        |
     |-------------------------------------------------------------------------------------------------------|"""
     i = 0
+    # Iterate through the return list and construct the middle part of the bill format
     for value in return_list:
+                # Check if the current land belongs to the same user and if there have been multiple transactions
                 if (value['Name'] == user_address_holder and count > 1) :
                     i += 1
+                    # concanating details to middle section of the bill
                     middle_return_bill = middle_return_bill + f"""
     |{i:^4}|{value['Kitta']:^16}|{value['Location']:^15}|{value['Anna']:^10}|{value['Direction(land)']:^15}|    {value['Duration']:^13}| {value['Price(per/month)']:^19}|"""
+                    # Calculate the total amount
                     total_return = total_return + (int(value['Price(per/month)']) * int(month)) + int(price)
                 else:
                     i += 1
+                    # concanating details to middle section of the bill
                     middle_return_bill = middle_return_bill+f"""
     |{i:^4}|{value['Kitta']:^16}|{value['Location']:^15}|{value['Anna']:^10}|{value['Direction(land)']:^15}|    {value['Duration']:^13}| {value['Price(per/month)']:^19}|"""
                     total_return = total_return + (int(value['Price(per/month)']) * int(month)) + int(price)
 
+# This is  the bottom part of the bill format
     bottom_return_bill = f"""
     ---------------------------------------------------------------------------------------------------------
     |                                                                        Total :{total_return:<18}      |
     |                                                                        VAT   : 13 %                   |
-    |                                                                  Grand Total :{(total_return + (total_return * 0.13)):<22}  |
-    --------------------------------------------------------------------------------------------------------
+    |Process:-returning                                                Grand Total :{(total_return + (total_return * 0.13)):<22}  |
+    ---------------------------------------------------------------------------------------------------------
     """
 
-    
+    # Joining the bill parts to form the complete bill format
     return_bill_format = top_return_bill + middle_return_bill + bottom_return_bill
     file = open("rentedLand.txt","w")
     file.write(return_bill_format) 
@@ -129,34 +167,53 @@ def return_bill_maker(user_Picked_Land_Holder,return_list,count,month,price=0):
     return count,return_list
 
 
+
+    return updated_name
+
 def nameValidator(name):
+    """
+        This function validates a given name. if user input is integer or space.
+
+        Args:
+            name (str): The name to be validated.
+
+        Returns:
+            str: The validated name.
+        """
     updated_name = name.strip()
     updated_name_list= name.split()
     print(updated_name)
-    while(updated_name.strip().isdigit() and len(updated_name.strip())<3):
-        updated_name = input("Enter a name(name must be non numeric value) or length > 3 in string>> ")
+    while(updated_name.strip().isdigit() or updated_name.isspace() or len(updated_name.strip())<3):
+        updated_name = input("Enter a name(name must be non numeric value and no spaces) or length > 3 in string>> ")
     
     i =0
-    while(i<len(updated_name) and updated_name_list[i].isdigit()):
-        # if(updated_name[i].isdigit):
-        updated_name = input("Enter a name(name must be non numeric value) or length > 3 in string>> ")
-            # break
+    while(i<len(updated_name) and (updated_name_list[i].isdigit() or ' ' in updated_name_list[i])):
+        
+        updated_name = input("Enter a name(name must be non numeric value and no spaces) or length > 3 in string>> ")
+        
         i= i+1
             
     return updated_name
 
 
 
-# this is a example of tuple
-my_tuple = ("apple", "banana", "cherry")
-# printing tuple
-print(my_tuple[0])
-
-
-
 
 
 def bill_maker(rented_list,user_Picked_Land_Holder,count,month=0):
+    """
+    This function generates a bill for renting land, including user information and rental details.
+
+    Args:
+        rented_list (list): A list containing dictionaries containing rental details.
+        user_Picked_Land_Holder (dict): A dictionary containing details of the user picked land.
+        count (int): The count of user purchase.
+        month (int): The duration of the rented by user. Defaults to 0.
+
+    Returns:
+        tuple: A tuple containing the updated count and rented_list.
+    """
+
+
     # Global variables to store user information
     global user_address_holder,user_phone_holder,user_name_holder
     middle_rented_bill = "" # Initialize empty string for middle section of the bill
@@ -248,8 +305,8 @@ def bill_maker(rented_list,user_Picked_Land_Holder,count,month=0):
     ---------------------------------------------------------------------------------------------------------
     |                                                                        Total :{total:<18}      |
     |                                                                        VAT   : 13 %                   |
-    |                                                                  Grand Total :{(total + (total * 0.13)):<22}  |
-    --------------------------------------------------------------------------------------------------------"""
+    |Process:-renting                                                  Grand Total :{(total + (total * 0.13)):<22}  |
+    ---------------------------------------------------------------------------------------------------------"""
 
     # Concatenate the entire bill format
     return_bill_format = top_rented_bill+middle_rented_bill+bottom_rented_bill
@@ -260,3 +317,4 @@ def bill_maker(rented_list,user_Picked_Land_Holder,count,month=0):
     file.close()
     # Returns the updated count and rented_list
     return count, rented_list
+

@@ -291,8 +291,8 @@ def return_Land_Process(user_input_kitta, count, user_picked_returnable_land):
                 
                 # Prompt the user to input the current month
                 current_month = input("Enter the running month>>>>")
-                user_input_validator(current_month)
-                while int(current_month) < 1 or int(current_month) > 12 or current_month.isalpha():
+                current_month = user_input_validator(current_month)
+                while int(current_month) < 1 or int(current_month) > 12 or str(current_month).isalpha():
                     current_month = input("Enter the running month>>>>")
                     user_input_validator(current_month)
                     
@@ -309,7 +309,7 @@ def return_Land_Process(user_input_kitta, count, user_picked_returnable_land):
                     count, user_picked_returnable_land = return_bill_maker(current_picked_land, user_picked_returnable_land, count=count, month=current_month, price=penalty_Price)
                 else:
                     # Update the count and rented lands list without penalty
-                    count, user_picked_returnable_land = return_bill_maker(current_picked_land, user_picked_returnable_land, count=count, month=current_month)
+                    count, user_picked_returnable_land = return_bill_maker(current_picked_land, user_picked_returnable_land, count=count, month=current_month,price=penalty_Price)
                     
                 # Update the rented lands list and rental file
                 updating_Details_in_rentFile(list_Of_Land, user_input_kitta, "return")
