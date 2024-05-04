@@ -87,8 +87,18 @@ def return_bill_maker(user_Picked_Land_Holder,return_list,count,month,price=0):
     # Check if this is the first transaction
     if(count== 0):
         count = count+1
-        # Accept user details like name,phone
-        name = input("Enter your name:>>>")
+        # asking user details like name,phone
+        while True:
+            # asking for name until user inputs the name correctly
+            name = input("Please enter your name (first name or first and last name): ")
+            # passes through only if user input is valid
+            if name_validator(name):
+                print(" your name is valid.")
+                break
+            else:
+                print("Invalid name. Please enter alphabetic characters only, and a maximum of one space.")
+                continue
+
         phone= input("Enter len()=10 your Phone Number: >>") 
         # Validate phone number length and format               
         while(len(phone) <10 or not (phone.isdigit())):
@@ -170,30 +180,35 @@ def return_bill_maker(user_Picked_Land_Holder,return_list,count,month,price=0):
 
     return updated_name
 
-def nameValidator(name):
+
+
+def name_validator(name):
     """
         This function validates a given name. if user input is integer or space.
 
         Args:
-            name (str): The name to be validated.
+        name (str): The name to be validated.
 
         Returns:
-            str: The validated name.
+        str: The validated name.
         """
-    updated_name = name.strip()
-    updated_name_list= name.split()
-    print(updated_name)
-    while(updated_name.strip().isdigit() or updated_name.isspace() or len(updated_name.strip())<3):
-        updated_name = input("Enter a name(name must be non numeric value and no spaces) or length > 3 in string>> ")
+
+
+    # Split the name based on spaces
+    parts = name.split()
     
-    i =0
-    while(i<len(updated_name) and (updated_name_list[i].isdigit() or ' ' in updated_name_list[i])):
-        
-        updated_name = input("Enter a name(name must be non numeric value and no spaces) or length > 3 in string>> ")
-        
-        i= i+1
-            
-    return updated_name
+    # Check each part is alphabetic
+    for part in parts:
+        if not part.isalpha() or len(name) <=2 or name.isspace():
+            return False  # Contains non-alphabetic characters
+
+    # If all checks pass, the name is valid
+    if(len(name.strip()) >=3 ):
+        return True
+    return False
+
+
+
 
 
 
@@ -229,8 +244,16 @@ def bill_maker(rented_list,user_Picked_Land_Holder,count,month=0):
     if(count == 0):
         count = count + 1
         # asking name from  user
-        name = input("Enter your name:>>> ")
-        name = nameValidator(name) # Validate name input
+        while True:
+            # asking for name until user inputs the name correctly
+            name = input("Please enter your name (first name or first and last name): ")
+            # passes through only if user input is valid
+            if name_validator(name):
+                print(" your name is valid.")
+                break
+            else:
+                print("Invalid name. Please enter alphabetic characters only, and a maximum of one space.")
+                continue
 
         phone= input("Enter len()=10 your Phone Number: >> ")
         # chceks phone number is valid

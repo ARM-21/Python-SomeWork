@@ -355,13 +355,13 @@ def land_return_starter(count,user_picked_returnable_land):
             # validates the kitta asks to input kitta until it is a number
             kitta_from_user = int(user_input_validator(kitta_from_user))
 
-        try:
+        # try:
             # trying to execute this block of code which the process for returning land
-            message,count,user_picked_returnable_land= return_Land_Process(kitta_from_user,count,user_picked_returnable_land)
-            print(message)
-        except:
+        message,count,user_picked_returnable_land= return_Land_Process(kitta_from_user,count,user_picked_returnable_land)
+        print(message)
+        # except:
             # catches error if try block encounters some error
-            print(message)
+        print(message)
         # Asking user if he wants to buy more land
         user_Confirmation_to_exit = input("Do you want to return the land again: (y/n) >")
         # if user confirmed no then all the bills are printed.

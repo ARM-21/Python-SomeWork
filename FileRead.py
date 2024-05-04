@@ -22,3 +22,13 @@ def fileReader(filePath='rent_details.txt'):
         updatedList.append(newDict) # Add dictionary to the list
     mainFile.close()  # Close the file
     return updatedList;     # Return the list of dictionaries
+
+
+str = "man neupane1"
+print(str.isalpha())
+arr = str.split()
+for value in arr:
+    print(value.isalpha())
+# print(arr)
+# print(arr[[i for i in range(len(arr))]].isalpha())
+# print((arr[0]+arr[1]).isdigit())
