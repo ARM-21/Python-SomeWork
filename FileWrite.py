@@ -165,7 +165,7 @@ def return_bill_maker(user_Picked_Land_Holder,return_list,count,month,price=0):
     ---------------------------------------------------------------------------------------------------------
     |                                                                        Total :{total_return:<18}      |
     |                                                                        VAT   : 13 %                   |
-    |Process:-returning                                                Grand Total :{(total_return + (total_return * 0.13)):<22}  |
+    |Process:-returning                                                Grand Total :{(total_return + (total_return * 0.13)):<22.2f}  |
     ---------------------------------------------------------------------------------------------------------
     """
 
@@ -177,8 +177,6 @@ def return_bill_maker(user_Picked_Land_Holder,return_list,count,month,price=0):
     return count,return_list
 
 
-
-    return updated_name
 
 
 
@@ -328,7 +326,7 @@ def bill_maker(rented_list,user_Picked_Land_Holder,count,month=0):
     ---------------------------------------------------------------------------------------------------------
     |                                                                        Total :{total:<18}      |
     |                                                                        VAT   : 13 %                   |
-    |Process:-renting                                                  Grand Total :{(total + (total * 0.13)):<22}  |
+    |Process:-renting                                                  Grand Total :{(total + (total * 0.13)):<22.3f}  |
     ---------------------------------------------------------------------------------------------------------"""
 
     # Concatenate the entire bill format

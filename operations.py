@@ -200,7 +200,7 @@ def land_Purchase(kittaInputFromUser,rented_list_by_user,count):
         tuple
     """
     
-    kittaInputFromUser = int(kittaInputFromUser)
+    kitta_Input_From_User = int(kittaInputFromUser)
     print(kittaInputFromUser) 
     details_Of_File_Holder = fileReader()
     user_Picked_Land_Holder= {} 
@@ -211,8 +211,8 @@ def land_Purchase(kittaInputFromUser,rented_list_by_user,count):
     # Loop through each land in the lands list
     for i in range(len(details_Of_File_Holder)):
         # Check if the kitta number matches and the land is available
-        if(int(details_Of_File_Holder[i]['Kitta']) == kittaInputFromUser ):
-            kitta_num = kittaInputFromUser
+        if(int(details_Of_File_Holder[i]['Kitta']) == kitta_Input_From_User ):
+            kitta_num = kitta_Input_From_User
             indexing_for_existed_kitta = i 
         # setting kitta_existing_checker to true
             kitta_num_existing_checker=True
@@ -263,7 +263,7 @@ def return_Land_Process(user_input_kitta, count, user_picked_returnable_land):
     Returns:tuple(message,count,user_picked_retunable_land)
     
     """
-
+    penalty_Price=0
     # Read the list of lands from the file
     list_Of_Land = fileReader() 
 
@@ -282,6 +282,10 @@ def return_Land_Process(user_input_kitta, count, user_picked_returnable_land):
             if list_Of_Land[result_Of_Checker]['Availability'] == "Not Available":
                 # Retrieve the details of the rented land
                 current_picked_land = list_Of_Land[result_Of_Checker]
+
+                print("kitta = "+ current_picked_land['Kitta']+"\nLocation = " + current_picked_land['Location'])
+                print("Land Faced = "+ current_picked_land['Direction(land)']+"\nAnna= " + current_picked_land['Anna'])
+                print("Availability = "+ current_picked_land['Availability']+"\nPrice = " + current_picked_land['Price(per/month)']+"\n")
         
                 # Prompt the user to input the number of months they've rented the land
                 user_month = input("Enter for how many months you have rented?>>>")
@@ -355,13 +359,13 @@ def land_return_starter(count,user_picked_returnable_land):
             # validates the kitta asks to input kitta until it is a number
             kitta_from_user = int(user_input_validator(kitta_from_user))
 
-        # try:
+        try:
             # trying to execute this block of code which the process for returning land
-        message,count,user_picked_returnable_land= return_Land_Process(kitta_from_user,count,user_picked_returnable_land)
-        print(message)
-        # except:
+            message,count,user_picked_returnable_land= return_Land_Process(kitta_from_user,count,user_picked_returnable_land)
+            print("\t\t\t"+message)
+        except:
             # catches error if try block encounters some error
-        print(message)
+            print("\t\t\t"+message)
         # Asking user if he wants to buy more land
         user_Confirmation_to_exit = input("Do you want to return the land again: (y/n) >")
         # if user confirmed no then all the bills are printed.
